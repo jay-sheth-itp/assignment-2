@@ -10,7 +10,7 @@
 #     Name  = "jay sheth web EC2"
 #     Owner = "jay.sheth@intuitive.cloud"
 #   }
-# #   user_data = file("${path.module}/public_user_data.sh")
+#   user_data = file("${path.module}/userdata.sh")
 
 # }
 
