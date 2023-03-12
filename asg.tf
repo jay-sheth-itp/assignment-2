@@ -1,5 +1,5 @@
 module "asg" {
-  source  = "terraform-aws-modules/autoscaling/aws"
+  source = "terraform-aws-modules/autoscaling/aws"
 
   # Autoscaling group
   name = "jay-asg"
@@ -22,11 +22,11 @@ module "asg" {
   instance_type     = "t2.micro"
   ebs_optimized     = false
   enable_monitoring = true
-  user_data = filebase64("${path.module}/userdata2.sh")
-  xsecurity_groups = [module.web_sg.security_group_id]
-  
-  # IAM role & instance profile
-   
+  user_data         = filebase64("${path.module}/ud.sh")
+  security_groups   = [module.app_sg.security_group_id]
+
+
+
   block_device_mappings = [
     {
       # Root volume
@@ -89,15 +89,15 @@ module "asg" {
   tag_specifications = [
     {
       resource_type = "instance"
-      tags          = { 
-        Name = "jay sheth"
+      tags = {
+        Name  = "jay sheth"
         Owner = "jay.sheth@intuitive.cloud"
-     }
+      }
     },
     {
       resource_type = "volume"
-      tags = { 
-        Name = "jay sheth" 
+      tags = {
+        Name  = "jay sheth"
         Owner = "jay.sheth@intuitive.cloud"
       }
     },
@@ -105,8 +105,8 @@ module "asg" {
 
   tags = {
     Environment = "dev"
-    Name     = "jay sheth"
-    Owner = "jay.sheth@intuitive.cloud"
+    Name        = "jay sheth"
+    Owner       = "jay.sheth@intuitive.cloud"
   }
 }
 # output "ec2ids" {

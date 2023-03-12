@@ -1,6 +1,7 @@
 #!/bin/bash
 # Use this for your user data (script from top to bottom)
 # install httpd (Linux 2 version)
+sudo su
 yum update -y
 yum install -y httpd
 systemctl start httpd
