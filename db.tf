@@ -15,12 +15,15 @@ module "db" {
     family = "mysql8.0"
 
     instance_class = "db.t3.micro"
-
+    allocated_storage= 5
     storage_type = "gp2"
-    allocated_storage = 10
+
     create_db_subnet_group = true
-    subnet_ids = module.vpc.public_subnets
-    vpc_security_group_ids = [module.app_sg.security_group_id]
+    subnet_ids = module.vpc.private_subnets
+    vpc_security_group_ids = [module.db_sg.security_group_id]
+
+    deletion_protection = false
+    skip_final_snapshot = true
 
     tags = {
         Owner = "jay.sheth@intuitive.cloud"

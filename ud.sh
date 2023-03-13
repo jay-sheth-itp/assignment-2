@@ -27,6 +27,6 @@ sudo wget https://www.phpmyadmin.net/downloads/phpMyAdmin-latest-all-languages.t
 sudo mkdir phpMyAdmin && sudo tar -xvzf phpMyAdmin-latest-all-languages.tar.gz -C phpMyAdmin --strip-components 1
 sudo rm phpMyAdmin-latest-all-languages.tar.gz
 sudo cp phpMyAdmin/config.sample.inc.php phpMyAdmin/config.inc.php
-sudo sed -i "s/localhost/${your_db_instance_address}/g" phpMyAdmin/config.inc.php
+sudo sed -i "s/localhost/${endpoint}/g" phpMyAdmin/config.inc.php
 # Create a test PHP file to verify the installation
 echo '<?php phpinfo(); ?>' > /var/www/html/phpinfo.php

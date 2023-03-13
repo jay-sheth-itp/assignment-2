@@ -10,7 +10,7 @@ module "asg" {
   wait_for_capacity_timeout = 0
   health_check_type         = "EC2"
   target_group_arns         = module.alb.target_group_arns
-  vpc_zone_identifier       = module.vpc.public_subnets
+  vpc_zone_identifier       = module.vpc.private_subnets
 
 
   # Launch template
@@ -22,7 +22,7 @@ module "asg" {
   instance_type     = "t2.micro"
   ebs_optimized     = false
   enable_monitoring = true
-  user_data         = filebase64("${path.module}/ud.sh")
+  user_data         = base64encode(templatefile("ud.sh", { endpoint = local.endpoint }))
   security_groups   = [module.app_sg.security_group_id]
 
 
@@ -40,52 +40,9 @@ module "asg" {
       }
     }
   ]
-
   capacity_reservation_specification = {
     capacity_reservation_preference = "open"
   }
-
-  # cpu_options = {
-  #   core_count       = 1
-  #   threads_per_core = 1
-  # }
-
-  # credit_specification = {
-  #   cpu_credits = "standard"
-  # }
-
-  # instance_market_options = {
-  #   market_type = "spot"
-  #   spot_options = {
-  #     block_duration_minutes = 60
-  #   }
-  # }
-
-  # metadata_options = {
-  #   http_endpoint               = "enabled"
-  #   http_tokens                 = "required"
-  #   http_put_response_hop_limit = 32
-  # }
-
-  # network_interfaces = [
-  #   {
-  #     delete_on_termination = true
-  #     description           = "eth0"
-  #     device_index          = 0
-  #     security_groups       = ["sg-12345678"]
-  #   },
-  #   {
-  #     delete_on_termination = true
-  #     description           = "eth1"
-  #     device_index          = 1
-  #     security_groups       = ["sg-12345678"]
-  #   }
-  # ]
-
-  # placement = {
-  #   availability_zone = "us-west-1b"
-  # }
-
   tag_specifications = [
     {
       resource_type = "instance"
@@ -109,6 +66,6 @@ module "asg" {
     Owner       = "jay.sheth@intuitive.cloud"
   }
 }
-# output "ec2ids" {
-#    value = module.asg.
-# }
+locals {
+  endpoint = module.db.db_instance_endpoint
+}

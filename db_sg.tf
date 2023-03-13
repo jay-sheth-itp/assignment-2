@@ -2,18 +2,23 @@ module "db_sg" {
   source = "terraform-aws-modules/security-group/aws"
 
   name        = "jay-db-sg"
-  description = "Security group for user-service with custom ports open within VPC, and PostgreSQL publicly open"
+  description = "SG for db tier"
   vpc_id      = module.vpc.vpc_id
 
-  ingress_cidr_blocks = ["0.0.0.0/0"]
-  # ingress_rules            = ["http-80-tcp"]
-  ingress_with_cidr_blocks = [
-    {
-      from_port   = 20
-      to_port     = 20
-      protocol    = "tcp"
-      description = "http"
-      cidr_blocks = "0.0.0.0/0"
-    },
-  ]
+ ingress_with_source_security_group_id = [{
+    from_port                = 3306
+    to_port                  = 3306
+    protocol                 = "tcp"
+    source_security_group_id = module.app_sg.security_group_id
+  }]
+
+  egress_with_cidr_blocks = [{
+    from_port   = -1
+    to_port     = -1
+    protocol    = "-1"
+    cidr_blocks = "0.0.0.0/0"
+  }]
+  tags = {
+    "Name" = "jay-db-sg"
+  }
 }
