@@ -65,7 +65,10 @@ module "asg" {
     Name        = "jay sheth"
     Owner       = "jay.sheth@intuitive.cloud"
   }
-}
+} 
+# locals {
+#   endpoint = module.db.db_instance_endpoint
+# }
 locals {
-  endpoint = module.db.db_instance_endpoint
+  endpoint = aws_route53_record.rds_record.fqdn
 }

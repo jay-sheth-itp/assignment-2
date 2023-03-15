@@ -35,6 +35,15 @@ module "alb" {
     }
   ]
 
+   https_listeners = [
+    {
+      port               = 443
+      protocol           = "HTTPS"
+      certificate_arn    = "arn:aws:acm:us-east-1:587172484624:certificate/4a382046-f0f6-4203-bfe5-a6319c62c318"
+      target_group_index = 0
+    }
+  ]
+
   tags = {
     Environment = "Test"
     Name        = "jay sheth"
