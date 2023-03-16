@@ -31,6 +31,15 @@ module "alb" {
     {
       port               = 80
       protocol           = "HTTP"
+      action = {
+        type = "redirect"
+        redirect = {
+          port        = "443"
+          protocol    = "HTTPS"
+          status_code = "HTTP_301"
+        }
+
+      }
       target_group_index = 0
     }
   ]

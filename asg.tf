@@ -22,7 +22,7 @@ module "asg" {
   instance_type     = "t2.micro"
   ebs_optimized     = false
   enable_monitoring = true
-  user_data         = base64encode(templatefile("ud.sh", { endpoint = local.endpoint }))
+  user_data         = base64encode(templatefile("ud.sh", { endpoint1 = local.endpoint }))
   security_groups   = [module.app_sg.security_group_id]
 
 
